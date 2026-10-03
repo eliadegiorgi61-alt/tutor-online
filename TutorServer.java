@@ -21,6 +21,20 @@ public class TutorServer {
    e.getResponseBody().write(b);
    e.getResponseBody().close();
   });
+  s.createContext("/sitemap.xml", e->{
+var xml = """
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://tutor-online-e5r1.onrender.com/</loc><priority>1.0</priority></url>
+</urlset>
+""";
+var b2=xml.getBytes();
+e.getResponseHeaders().add("Content-Type","application/xml");
+e.sendResponseHeaders(200,b2.length);
+e.getResponseBody().write(b2);
+e.getResponseBody().close();
+});
   s.start();
  }
+ 
 }
