@@ -5,7 +5,16 @@ public class TutorServer {
     public static void main(String[] args) throws Exception {
         int port = Integer.parseInt(System.getenv().getOrDefault("PORT", "8080"));
         HttpServer server = HttpServer.create(new InetSocketAddress(port), 0);
-        
+
+        // QUESTO E' QUELLO NUOVO CHE LO TIENE SVEGLIO
+        server.createContext("/ping", ex -> {
+            String ok = "ok - TutorOnline sveglio!";
+            byte[] b = ok.getBytes();
+            ex.sendResponseHeaders(200, b.length);
+            ex.getResponseBody().write(b);
+            ex.getResponseBody().close();
+        });
+
         server.createContext("/", exchange -> {
             String html = """
                 <!DOCTYPE html>
@@ -34,11 +43,11 @@ public class TutorServer {
                   var r = document.getElementById('risposta');
                   r.style.display='block';
                   if(d.includes('comun divisore') || d.includes('mcd')){
-                    r.innerText = "MASSIMO COMUN DIVISORE (MCD):\\nE' il numero piu' grande che divide due numeri.\\n\\nEsempio: MCD di 12 e 18 = 6\\n- Divisori di 12: 1,2,3,4,6,12\\n- Divisori di 18: 1,2,3,6,9,18\\nIl piu' grande in comune e' 6.\\n\\nServe per semplificare le frazioni!";
+                    r.innerText = "MASSIMO COMUN DIVISORE (MCD):\\nE' il numero piu' grande che divide due numeri.\\n\\nEsempio: MCD di 12 e 18 = 6\\n- Divisori di 12: 1,2,3,4,6,12\\n- Divisori di 18: 1,2,3,6,9,18\\nIl piu' grande in comune e' 6.";
                   } else if(d.includes('equazione')){
-                    r.innerText = "Un'equazione e' una uguaglianza con una incognita (x).\\nEs: x + 5 = 12 -> x = 7";
+                    r.innerText = "Un'equazione e' una uguaglianza con una incognita (x). Es: x + 5 = 12 -> x = 7";
                   } else if(d!=''){
-                    r.innerText = "Bella domanda! '" + d + "'\\n\\nPer ora so rispondere a: comun divisore, equazioni. Scrivi 'MCD' per la spiegazione completa!";
+                    r.innerText = "Bella domanda! Per ora so rispondere a: comun divisore, equazioni. Scrivi 'MCD'!";
                   } else {
                     r.innerText = "Scrivi una domanda sopra! Prova con: cos'e' il comun divisore?";
                   }
