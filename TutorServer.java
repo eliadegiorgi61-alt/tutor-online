@@ -5,7 +5,7 @@ public class TutorServer {
   var s = HttpServer.create(new InetSocketAddress(8080),0);
   s.createContext("/", e->{
    var html = """
-   <html><head>
+   <html><head><meta name="google-site-verification" content="XJpj2uOWdgSI0OLUZCetaPH-z9KfVVddObUjV71W6Dw" />
    <title>Tutor Online - Ripetizioni e Aiuto Compiti</title>
    <meta name="description" content="Tutor Online: aiuto compiti, ripetizioni di matematica, italiano, inglese per ragazzi.">
    <meta name="viewport" content="width=device-width, initial-scale=1">
