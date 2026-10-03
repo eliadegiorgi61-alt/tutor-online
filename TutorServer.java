@@ -1,24 +1,37 @@
-import com.sun.net.httpserver.HttpServer;
+import com.sun.net.httpserver.*;
+import java.io.*;
 import java.net.InetSocketAddress;
 import java.nio.file.*;
-public class TutorServer{
-public static void main(String[]args)throws Exception{
-int port=Integer.parseInt(System.getenv().getOrDefault("PORT","10000"));
-HttpServer s=HttpServer.create(new InetSocketAddress(port),0);
-s.createContext("/",e->{
-String path=e.getRequestURI().getPath();
-try{
-if(path.contains("sitemap")){
-String xml="<?xml version=\"1.0\" encoding=\"UTF-8\"?><urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\"><url><loc>https://tutor-online-e5r1.onrender.com/</loc></url></urlset>";
-byte[] b=xml.getBytes(); e.getResponseHeaders().add("Content-Type","application/xml"); e.sendResponseHeaders(200,b.length); e.getResponseBody().write(b); e.getResponseBody().close(); return;
-}
-if(path.contains("robots")){
-String txt="User-agent: *\nAllow: /\nSitemap: https://tutor-online-e5r1.onrender.com/sitemap.xml";
-byte[] b=txt.getBytes(); e.getResponseHeaders().add("Content-Type","text/plain"); e.sendResponseHeaders(200,b.length); e.getResponseBody().write(b); e.getResponseBody().close(); return;
-}
-Path p=Path.of("index.html"); String html=Files.exists(p)?Files.readString(p):"<h1>Tutor Online</h1>"; if(html.isEmpty()) html="<h1>Tutor Online</h1>";
-byte[] b=html.getBytes(); e.getResponseHeaders().add("Content-Type","text/html; charset=utf-8"); e.sendResponseHeaders(200,b.length); e.getResponseBody().write(b); e.getResponseBody().close();
-}catch(Exception ex){ try{ String m="Error"; e.sendResponseHeaders(500,m.length()); e.getResponseBody().write(m.getBytes()); e.getResponseBody().close(); }catch(Exception ignore){} }
-}); s.start(); System.out.println("Server started "+port);
-}
+
+public class TutorServer {
+    public static void main(String[] args) throws Exception {
+        int port = Integer.parseInt(System.getenv().getOrDefault("PORT", "10000"));
+        HttpServer server = HttpServer.create(new InetSocketAddress(port), 0);
+        
+        server.createContext("/", exchange -> {
+            try {
+                String path = exchange.getRequestURI().getPath();
+                if (path.equals("/")) path = "/index.html";
+                
+                File file = new File("." + path);
+                if (!file.exists()) {
+                    String notFound = "Not Found";
+                    exchange.sendResponseHeaders(404, notFound.length());
+                    exchange.getResponseBody().write(notFound.getBytes());
+                } else {
+                    byte[] bytes = Files.readAllBytes(file.toPath());
+                    String ct = "text/html";
+                    if (path.endsWith(".css")) ct = "text/css";
+                    if (path.endsWith(".js")) ct = "application/javascript";
+                    exchange.getResponseHeaders().set("Content-Type", ct);
+                    exchange.sendResponseHeaders(200, bytes.length);
+                    exchange.getResponseBody().write(bytes);
+                }
+            } catch (Exception e) { e.printStackTrace(); }
+            finally { exchange.close(); }
+        });
+        
+        server.start();
+        System.out.println("Server started on port " + port);
+    }
 }
