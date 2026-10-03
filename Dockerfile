@@ -1,4 +1,6 @@
 FROM eclipse-temurin:17
-COPY TutorServer.java .
+WORKDIR /app
+COPY . .
 RUN javac TutorServer.java
+EXPOSE 10000
 CMD ["java", "TutorServer"]
