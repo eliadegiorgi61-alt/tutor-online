@@ -1,6 +1,5 @@
-FROM eclipse-temurin:17-jdk
+FROM eclipse-temurin:17
 WORKDIR /app
 COPY . .
-RUN javac --add-modules jdk.httpserver TutorServer.java
-EXPOSE 10000
-CMD ["java", "--add-modules", "jdk.httpserver", "TutorServer"]
+RUN javac TutorServer.java
+CMD ["java", "TutorServer"]
