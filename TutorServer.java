@@ -12,7 +12,7 @@ public class TutorServer {
         HttpServer server = HttpServer.create(new InetSocketAddress(port), 0);
 
         server.createContext("/", ex -> {
-            String html = "<!DOCTYPE html><html><head><meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1'><title>TutorOnline V10</title><style>*{margin:0;padding:0;box-sizing:border-box}body{background:#0a0a0a;color:#fff;font-family:system-ui;display:flex;height:100vh}.side{width:260px;background:#000;border-right:1px solid #1a1a1a;padding:12px;display:flex;flex-direction:column;gap:8px}@media(max-width:700px){.side{display:none}}.logo{font-size:20px;font-weight:900;text-align:center;padding:10px}span{color:#00ff88}.btn{background:#00ff88;color:#000;border:none;padding:10px;border-radius:8px;font-weight:900;cursor:pointer}.hist{flex:1;overflow-y:auto;font-size:12px;color:#888}.main{flex:1;display:flex;flex-direction:column}#chat{flex:1;overflow-y:auto;padding:16px;background:#0f0f0f}.msg{max-width:85%;margin:10px 0;padding:12px 14px;border-radius:14px;line-height:1.6;white-space:pre-wrap;font-size:14px}.u{background:#00ff88;color:#000;margin-left:auto}.b{background:#1a1a1a;border:1px solid #222}.bar{padding:12px;background:#000;border-top:1px solid #1a1a1a;display:flex;gap:8px}input{flex:1;padding:14px;border-radius:12px;border:1px solid #333;background:#111;color:#fff}button{background:#00ff88;color:#000;border:none;border-radius:12px;padding:12px 16px;font-weight:900;cursor:pointer}.typing:after{content:'|';animation:blink 1s infinite}@keyframes blink{50%{opacity:0}}</style></head><body><div class='side'><div class='logo'>Tutor<span>Online</span> V10</div><button class='btn' onclick='newChat()'>+ Nuova Chat</button><div class='hist' id='hist'>Cronologia:<br>- Zigurat<br>- 2a Guerra<br>- Mesopotamia</div><div style='font-size:10px;color:#555;margin-top:auto'>V10 GOD - Meglio di ChatGPT</div></div><div class='main'><div id='chat'><div class='msg b'>V10 GOD MODE ATTIVO\n\nSono come ChatGPT ma:\n- Gratis\n- In italiano perfetto\n- Con trucchi per verifiche\n- Ti parlo a voce\n- Ricordo tutto\n\nChiedi qualsiasi cosa!</div></div><div class='bar'><input id='q' placeholder='Messaggio a TutorOnline V10...' onkeydown='if(event.key==\"Enter\")send()'><button onclick='send()'>Invia</button></div></div><script>let hist=[];function add(t,c){let d=document.getElementById('chat');let e=document.createElement('div');e.className='msg '+c;e.innerText=t;d.appendChild(e);d.scrollTop=d.scrollHeight;return e;}function typeEffect(el,text){el.innerText='';let i=0;let int=setInterval(()=>{el.innerText+=text.charAt(i);i++;document.getElementById('chat').scrollTop=document.getElementById('chat').scrollHeight;if(i>=text.length)clearInterval(int);},12);}async function send(){let i=document.getElementById('q');let d=i.value.trim();if(!d)return;add(d,'u');hist.push(d);document.getElementById('hist').innerHTML+='<div style=margin-top:6px>'+d.slice(0,30)+'</div>';i.value='';let b=add('...','b');b.classList.add('typing');try{let r=await fetch('/ask?d='+encodeURIComponent(d));let txt=await r.text();b.classList.remove('typing');typeEffect(b,txt);}catch(e){b.innerText='Errore, riprova';}}function newChat(){document.getElementById('chat').innerHTML='<div class=msg b>Nuova chat V10 pronta!</div>';}</script></body></html>";
+            String html = "<!DOCTYPE html><html><head><meta charset='utf-8'><meta name='viewport' content='width=device-width,initial-scale=1'><title>TutorOnline V50 GOD</title><style>*{margin:0;padding:0;box-sizing:border-box}body{background:#000;color:#fff;font-family:system-ui;height:100vh;display:flex;flex-direction:column}.top{background:linear-gradient(90deg,#00ff88,#00ccff);color:#000;padding:10px;text-align:center;font-weight:900;letter-spacing:1px}.badge{background:#000;color:#00ff88;padding:2px 8px;border-radius:10px;font-size:10px;margin-left:8px}#chat{flex:1;overflow-y:auto;padding:12px;background:#0a0a0a}.msg{margin:8px 0;padding:12px 14px;border-radius:16px;max-width:90%;line-height:1.6;white-space:pre-wrap;font-size:14px}.u{background:linear-gradient(135deg,#00ff88,#00ccff);color:#000;margin-left:auto;font-weight:600}.b{background:#111;border:1px solid #222;border-left:3px solid #00ff88}.bar{display:flex;gap:6px;padding:10px;background:#000;border-top:1px solid #1a1a1a}input{flex:1;padding:14px;border-radius:12px;border:1px solid #333;background:#111;color:#fff}button{background:#00ff88;color:#000;border:none;border-radius:12px;padding:12px 14px;font-weight:900}select{background:#111;color:#fff;border:1px solid #333;border-radius:10px;padding:10px}</style></head><body><div class='top'>TutorOnline V50 GOD <span class='badge'>FINAL AGI - 10X CHATGPT</span></div><div id='chat'><div class='msg b'>V50 GOD MODE ATTIVO - LIVELLO FINALE\n\nNon sono piu un tutor. Sono il sistema che ti porta al 10.\n\nComandi V50:\n- Scrivi: zigurat, piramidi, equazioni\n- Dici: interrogami su storia\n- Chiedi: crea verifica difficilissima\n\nProva ora: cosa sono le zigurat?</div></div><div class='bar'><select id='m'><option>Generale</option><option>Matematica</option><option>Storia</option><option>Scienze</option><option>Italiano</option></select><input id='q' placeholder='Chiedi a V50 GOD...'><button onclick='s()'>></button></div><div class='bar' style='padding-top:0'><button onclick='mic()' style='background:#111;color:#fff;border:1px solid #333;flex:1'>Mic</button><button onclick='quiz()' style='background:#111;color:#00ff88;border:1px solid #00ff88;flex:1'>Modalita Interrogazione</button></div><script>function a(t,c){let d=document.getElementById('chat');let e=document.createElement('div');e.className='msg '+c;e.innerText=t;d.appendChild(e);d.scrollTop=d.scrollHeight;return e;}function type(el,txt){el.innerText='';let i=0;let iv=setInterval(()=>{el.innerText+=txt[i];i++;document.getElementById('chat').scrollTop=99999;if(i>=txt.length)clearInterval(iv);},10);}async function s(){let i=document.getElementById('q');let d=i.value.trim();if(!d)return;a(d,'u');i.value='';let b=a('V50 GOD ragiona a 1000 IQ...','b');try{let r=await fetch('/ask?d='+encodeURIComponent(d)+'&m='+document.getElementById('m').value);let txt=await r.text();type(b,txt);let u=new SpeechSynthesisUtterance(txt.slice(0,200));u.lang='it-IT';speechSynthesis.speak(u);}catch(e){b.innerText='Errore';}}function mic(){let r=new(window.webkitSpeechRecognition||window.SpeechRecognition)();r.lang='it-IT';r.onresult=e=>{document.getElementById('q').value=e.results[0][0].transcript;s();};r.start();}function quiz(){let t=prompt('Su cosa ti interrogo?');if(t){document.getElementById('q').value='Interrogami come una prof severa su '+t;s();}}</script></body></html>";
             ex.getResponseHeaders().set("Content-Type","text/html; charset=utf-8");
             ex.sendResponseHeaders(200, html.getBytes(StandardCharsets.UTF_8).length);
             ex.getResponseBody().write(html.getBytes(StandardCharsets.UTF_8));
@@ -21,36 +21,21 @@ public class TutorServer {
 
         server.createContext("/ask", ex -> {
             String qs = ex.getRequestURI().getQuery();
-            String dom = "";
-            if(qs!=null) for(String part: qs.split("&")) if(part.startsWith("d=")) dom=URLDecoder.decode(part.substring(2), StandardCharsets.UTF_8);
-            String low = dom.toLowerCase();
+            String dom=""; String mat="generale";
+            if(qs!=null) for(String part: qs.split("&")){
+                if(part.startsWith("d=")) dom=URLDecoder.decode(part.substring(2), StandardCharsets.UTF_8);
+                if(part.startsWith("m=")) mat=URLDecoder.decode(part.substring(2), StandardCharsets.UTF_8);
+            }
+            String low=dom.toLowerCase();
             String risp;
 
             if(low.contains("zigurat") || low.contains("ziggurat")){
-                risp = "ZIGURAT - Risposta V10 GOD:\n\nCosa sono:\nTempli mesopotamici a gradoni di mattoni crudi, alti fino a 50m. Al top cera il tempio del dio.\n\nA cosa servivano:\n1) Tempio per pregare (in cima)\n2) Osservatorio stelle\n3) Dimostrare potere del re\n\nEsempio top: Zigurat di Ur (2112 a.C.) per il dio Luna Nanna. 3 terrazze, scala monumentale.\n\nDifferenza piramidi:\n- Zigurat = tempio, a gradoni, in Mesopotamia\n- Piramide = tomba, lati lisci, in Egitto\n\nTRUCCO: ZIGURAT = ZIG ZAG verso il cielo\n\nVuoi il disegno o la verifica?";
-            } else if(low.contains("ciao") || low.contains("chi sei")){
-                risp = "Ciao! Sono TutorOnline V10 GOD - costruito da te Elia.\n\nSono meglio di ChatGPT perche:\n- Parlo come un prof italiano vero\n- Do trucchi mnemonici\n- Creo verifiche pronte\n- Gratis per sempre, tuo al 100%\n\nChiedimi: spiegami le zigurat, crea verifica storia, risolvi equazione...";
+                risp="V50 GOD - ZIGURAT [Livello 10]:\n\nSono templi mesopotamici a gradoni (2100 a.C.).\n\nSTRUTTURA:\n- 3-7 terrazze di mattoni\n- Scala centrale monumentale\n- Tempio del dio in cima (Nanna, Marduk)\n\nFUNZIONE:\n1) Collegare cielo-terra\n2) Osservatorio astronomico (Sumeri inventano astrologia)\n3) Magazzino grano + archivio\n\nESEMPIO: Zigurat di Ur - 60m x 45m, 3 piani, dedicata a Nanna.\n\nDIFFERENZA PIRAMIDE:\nZigurat = tempio, gradoni, Mesopotamia\nPiramide = tomba, lati lisci, Egitto\n\nTRUCCO V50: ZIGURAT = ZIG-ZAG + RAT (ratto che sale le scale verso il cielo)\n\nMODALITA INTERROGAZIONE: Vuoi che ti interrogo io ora su questo?";
+            } else if(low.contains("interrogami")){
+                risp="V50 MODALITA INTERROGAZIONE - PROF SEVERA:\n\nDomanda 1 (facile): Cosa sono le zigurat?\n\nRispondi tu ora, poi ti dico se e da 6, 8 o 10 e ti correggo come farebbe la tua prof!\n\nScrivi la risposta!";
+            } else if(low.contains("verifica") || low.contains("quiz")){
+                risp="VERIFICA V50 LIVELLO DIFFICILE su "+dom+":\n\nQ1 [2pt] Definisci con anno\nQ2 [3pt] 3 differenze con argomento simile\nQ3 [3pt] Perche e importante oggi?\nQ4 [2pt] Trucco per non dimenticarlo mai\n\nTotale 10pt. Mandami le risposte e ti do il voto VERO!";
             } else {
                 try{
-                    HttpClient c = HttpClient.newBuilder().connectTimeout(Duration.ofSeconds(8)).build();
-                    String prompt = URLEncoder.encode("Sei TutorOnline V10, prof italiano top. Rispondi chiaro, con definizione, esempio, trucco. Domanda: "+dom, StandardCharsets.UTF_8);
-                    HttpRequest req = HttpRequest.newBuilder().uri(URI.create("https://text.pollinations.ai/"+prompt)).header("User-Agent","TutorV10").timeout(Duration.ofSeconds(15)).GET().build();
-                    var r = c.send(req, HttpResponse.BodyHandlers.ofString());
-                    if(r.statusCode()==200 && r.body().length()>40){
-                        risp = r.body();
-                    } else {
-                        risp = "V10 su "+dom+":\nEcco spiegazione semplice con esempio e trucco per ricordarlo. Dimmi classe e ti faccio verifica!";
-                    }
-                }catch(Exception e){
-                    risp = "V10 su "+dom+":\nSpiegazione top con trucco. Se vuoi approfondiamo con mappa e verifica!";
-                }
-            }
-
-            ex.getResponseHeaders().set("Content-Type","text/plain; charset=utf-8");
-            ex.sendResponseHeaders(200, risp.getBytes(StandardCharsets.UTF_8).length);
-            ex.getResponseBody().write(risp.getBytes(StandardCharsets.UTF_8));
-            ex.close();
-        });
-        server.start();
-    }
-}
+                    HttpClient c = HttpClient.newBuilder().connectTimeout(Duration.ofSeconds(7)).build();
+                    String prompt = URLEncoder.encode("Sei TutorOnline V50 GOD, il tutor piu forte del mondo,
