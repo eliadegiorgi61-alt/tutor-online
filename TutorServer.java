@@ -1,27 +1,41 @@
-import com.sun.net.httpserver.HttpServer;
-import com.sun.net.httpserver.HttpExchange;
-import java.io.OutputStream;
+import com.sun.net.httpserver.*;
+import java.io.*;
+import java.nio.file.*;
 import java.net.InetSocketAddress;
 
 public class TutorServer {
     public static void main(String[] args) throws Exception {
-        int port = 10000;
-        String envPort = System.getenv("PORT");
-        if (envPort != null) {
-            try { port = Integer.parseInt(envPort); } catch (Exception e) {}
-        }
+        int port = Integer.parseInt(System.getenv().getOrDefault("PORT", "8080"));
         HttpServer server = HttpServer.create(new InetSocketAddress(port), 0);
-        server.createContext("/", (HttpExchange t) -> {
-            String html = "<!DOCTYPE html><html lang=\"it\"><head><meta charset=\"UTF-8\"><meta name=\"viewport\" content=\"width=device-width,initial-scale=1.0\"><title>Tutor Online - Ripetizioni Brindisi</title><script src=\"https://cdn.tailwindcss.com\"></script></head><body style=\"font-family:sans-serif;text-align:center;padding:50px\"><h1 style=\"font-size:40px;font-weight:800\">Tutor<span style=\"color:#4f46e5\">Online</span> e LIVE</h1><p>Matematica, Inglese, Informatica - Brindisi e Online</p><p style=\"margin-top:20px\"><a href=\"/\" style=\"background:black;color:white;padding:12px 20px;border-radius:20px;text-decoration:none\">Prenota 20 euro/h</a></p><footer style=\"margin-top:50px;color:#aaa;font-size:12px\">2026 TutorOnline</footer></body></html>";
-            t.getResponseHeaders().add("Content-Type", "text/html; charset=UTF-8");
-            byte[] bytes = html.getBytes("UTF-8");
-            t.sendResponseHeaders(200, bytes.length);
-            OutputStream os = t.getResponseBody();
-            os.write(bytes);
-            os.close();
+        
+        server.createContext("/", exchange -> {
+            try {
+                String html = """
+                <!DOCTYPE html>
+                <html lang="it">
+                <head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <title>TutorOnline</title>
+                <style>
+                body{font-family:sans-serif; text-align:center; padding:80px 20px; margin:0; background:#fff}
+                h1{font-size:44px; margin:0} h1 span{color:#4f46e5}
+                p{color:#555; font-size:18px; margin-top:15px}
+                </style></head>
+                <body>
+                <h1>Tutor<span>Online</span> e' <br>LIVE</h1>
+                <p>Matematica, Inglese, Informatica -<br>Brindisi e Online</p>
+                <p style="margin-top:50px; color:#aaa; font-size:14px">2026 TutorOnline</p>
+                </body></html>
+                """;
+                byte[] bytes = html.getBytes();
+                exchange.sendResponseHeaders(200, bytes.length);
+                exchange.getResponseBody().write(bytes);
+                exchange.getResponseBody().close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         });
-        server.setExecutor(null);
+        
         server.start();
-        System.out.println("Server started on port " + port);
+        System.out.println("Server LIVE on port " + port);
     }
 }
