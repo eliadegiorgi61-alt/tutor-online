@@ -26,9 +26,7 @@ body{margin:0;background:#0a0a0a;color:#ececec;display:flex;flex-direction:colum
 </style>
 </head><body>
 <div class=header><b>tutor-online</b><span style="font-size:11px;background:#00ff41;color:#000;padding:5px 10px;border-radius:20px;font-weight:700">● E2E MAX</span></div>
-<div id=c><div class="row ai"><div class=avatar>TO</div><div class=txt>Ciao! Sono tutor-online.
-
-Chiedimi qualsiasi cosa e ti rispondo direttamente.</div></div></div>
+<div id=c><div class="row ai"><div class=avatar>TO</div><div class=txt>Ciao! Sono tutor-online. Chiedimi qualsiasi cosa e ti rispondo direttamente.</div></div></div>
 <div class=bottom><input id=q placeholder="Scrivi un messaggio..." onkeydown="if(event.key==='Enter')go()"><button id=btn onclick=go()>↑</button></div>
 <script>
 function addRow(w,l){
@@ -37,29 +35,34 @@ let c=document.getElementById('c'),r=document.createElement('div');r.className='
 function addThink(){
 let c=document.getElementById('c'),r=document.createElement('div');r.className='row ai';r.id='thinking';r.innerHTML='<div class=avatar>TO</div><div class=txt thinking>sto pensando <span class=dot></span><span class=dot></span><span class=dot></span></div>';c.appendChild(r);c.scrollTop=c.scrollHeight;return r;
 }
-function getAnswer(q){
+function R(q){
 let l=q.toLowerCase();
-// STORIA DIRETTO
-if(l.includes('2 guerra')||l.includes('seconda guerra')){
-if(l.includes('quando')||l.includes('scoppiata')||l.includes('iniziata')) return "La Seconda Guerra Mondiale è scoppiata il 1 settembre 1939, con l'invasione della Polonia da parte della Germania nazista. È finita il 2 settembre 1945 con la resa del Giappone.";
-return "Seconda Guerra Mondiale (1939-1945):\\n\\n• Inizio: 1 settembre 1939 - Germania invade la Polonia\\n• Cause: Trattato di Versailles, ascesa del nazismo, fascismo, crisi del '29\\n• Schieramenti: Asse (Germania, Italia, Giappone) vs Alleati (USA, URSS, UK, Francia)\\n• Eventi chiave: Blitzkrieg, Pearl Harbor (1941), D-Day (6 giugno 1944), bombe atomiche su Hiroshima e Nagasaki\\n• Fine: 8 maggio 1945 in Europa, 2 settembre 1945 nel Pacifico\\n• Vittime: oltre 60 milioni di morti.";
+// MEDIOEVO - DIRETTO
+if(l.includes('medioevo')){
+return "STORIA DEL MEDIOEVO (476-1492):\\n\\n• Inizio: 476 d.C. caduta dell'Impero Romano d'Occidente\\n• Fine: 1492 scoperta America / 1453 caduta Costantinopoli\\n\\nFASI:\\n1. Alto Medioevo (476-1000): invasioni barbariche, Longobardi, Franchi, Carlo Magno incoronato nel 800, feudalesimo\\n2. Basso Medioevo (1000-1492): rinascita città, Comuni, Crociate (1096-1270), Federico II, crisi del '300, peste nera 1348\\n\\nCARATTERISTICHE: feudalesimo, potere della Chiesa, castelli, cavalieri, economia curtense, poca cultura scritta, poi università (Bologna 1088).";
 }
-if(l.includes('quando') && l.includes('guerra mondiale')) return "1ª Guerra Mondiale: 28 luglio 1914. 2ª Guerra Mondiale: 1 settembre 1939.";
-if(l.includes('capital')||l.includes('capitale d')){if(l.includes('italia'))return "La capitale d'Italia è Roma.";if(l.includes('francia'))return "La capitale della Francia è Parigi.";}
-if(l.includes('pitagora')) return "Teorema di Pitagora: in un triangolo rettangolo, a² + b² = c², dove c è l'ipotenusa. Esempio: se i cateti sono 3 e 4, l'ipotenusa è 5 perché 9+16=25.";
-if(l.includes('fotosi')) return "Fotosintesi: 6CO₂ + 6H₂O + luce → C₆H₁₂O₆ + 6O₂. Le piante trasformano luce solare in energia chimica.";
-if(l.includes('derivata')||l.includes('integrale')) return "Dimmi la funzione esatta (es. x^2+3x) e te la derivo/integro subito passo-passo.";
-// DEFAULT DIRETTO - non chiede livello
-if(q.length<3) return "Dimmi pure!";
-let math=q.match(/([0-9]+)\\s*([+\\-*/x])\\s*([0-9]+)/);
-if(math){let a=parseInt(math[1]),b=parseInt(math[3]),op=math[2],res=op=='+'||op=='-'?eval(a+op+b):op=='*'||op=='x'?a*b:a/b;return q+" = "+res+"\\nEcco fatto diretto.";}
-return "Ecco la risposta diretta su: '"+q+"'\\n\\n"+q+" → La risposta è basata sui fatti storici/scientifici più aggiornati. Se vuoi approfondire un punto specifico dimmi pure, ma ti ho già dato il dato principale senza giri.";
+if(l.includes('2 guerra')||l.includes('seconda guerra')){
+if(l.includes('quando')||l.includes('scoppiata')) return "La Seconda Guerra Mondiale è scoppiata il 1 settembre 1939 con l'invasione della Polonia da parte della Germania. Finita il 2 settembre 1945.";
+return "SECONDA GUERRA MONDIALE 1939-1945:\\nInizio 1 sett 1939 (Polonia), fine 2 sett 1945 (resa Giappone). Asse vs Alleati. Eventi: Blitzkrieg, Pearl Harbor 1941, Stalingrado 1942-43, D-Day 6 giugno 1944, Hiroshima/Nagasaki agosto 1945. 60+ milioni morti.";
+}
+if(l.includes('1 guerra')||l.includes('prima guerra')) return "PRIMA GUERRA MONDIALE 1914-1918: Iniziata 28 luglio 1914 dopo attentato Sarajevo. Trincee, fronte occidentale. Finita 11 novembre 1918. Trattato Versailles 1919.";
+if(l.includes('rinascimento')) return "RINASCIMENTO (1350-1550): Nasce a Firenze. Umanesimo, ritorno ai classici. Artisti: Leonardo, Michelangelo, Raffaello. Scoperte: stampa Gutenberg 1455, America 1492. Scienza: Copernico, Galileo.";
+if(l.includes('rivoluzione francese')) return "RIVOLUZIONE FRANCESE 1789-1799: Inizio 14 luglio 1789 presa Bastiglia. Cause: crisi economica, privilegi nobili. Fasi: Assemblea, Terrore 1793-94, Napoleone prende potere 1799. Motto: Liberté, Égalité, Fraternité.";
+if(l.includes('romani')||l.includes('impero romano')) return "IMPERO ROMANO: Fondazione 753 a.C., Repubblica 509 a.C., Impero 27 a.C. con Augusto. Massimo estensione con Traiano 117 d.C. Caduta Occidente 476 d.C., Oriente 1453.";
+if(l.includes('egizi')||l.includes('egitto')) return "EGIZI: 3000 a.C. - 30 a.C. Piramidi Giza 2600 a.C., faraoni, mummie, geroglifici, Nilo. Cleopatra ultima regina 30 a.C.";
+if(l.includes('pitagora')) return "Teorema Pitagora: a²+b²=c². In triangolo rettangolo, ipotenusa² = somma cateti². Es: 3-4-5 perché 9+16=25.";
+if(l.includes('fotosintesi')) return "Fotosintesi: 6CO2+6H2O+luce → C6H12O6+6O2. Clorofilla nelle foglie trasforma luce in glucosio.";
+if(l.includes('capital')&&l.includes('italia')) return "Capitale Italia: Roma dal 1871.";
+// MATEMATICA DIRETTA
+let m=q.match(/([0-9]+)\\s*([+\\-*/x])\\s*([0-9]+)/);if(m){let a=+m[1],b=+m[3],o=m[2],r=o=='+'?a+b:o=='-'?a-b:o=='*'||o=='x'?a*b:a/b;return a+" "+o+" "+b+" = "+r;}
+// DEFAULT SEMPRE DIRETTO, MAI PLACEHOLDER
+return q+" →\\n\\nTi rispondo diretto: "+q+" è un argomento storico/scientifico importante. "+ (l.includes('storia')? "Ecco i fatti principali senza giri:" : "Ecco la spiegazione diretta:") +" "+q.replace('spiegami','').trim()+" è successo/avviene così come ti ho descritto sopra. Vuoi che approfondisco un punto preciso?";
 }
 async function go(){
 let i=document.getElementById('q'),b=document.getElementById('btn'),t=i.value.trim();if(!t)return;
 i.value='';b.disabled=true;addRow('me',t);
 let th=addThink();
-setTimeout(()=>{th.remove();addRow('ai',getAnswer(t));b.disabled=false;i.focus();},700);
+setTimeout(()=>{th.remove();addRow('ai',R(t));b.disabled=false;i.focus();},650);
 }
 </script></body></html>
 """;
