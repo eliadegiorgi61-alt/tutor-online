@@ -1,4 +1,4 @@
-import com.sun.net.httpserver.*;import java.net.*;import java.nio.charset.*;import java.util.*;import java.util.concurrent.*;
+import com.sun.net.httpserver.*;import java.net.*;import java.nio.charset.*;import java.util.*;
 public class TutorServer{
 public static void main(String[]a)throws Exception{
 int port=10000;String p=System.getenv("PORT");if(p!=null)port=Integer.parseInt(p);
@@ -6,64 +6,86 @@ HttpServer s=HttpServer.create(new InetSocketAddress(port),0);
 s.createContext("/",ex->{
 String html="""
 <html><head><meta charset=utf-8><meta name=viewport content='width=device-width,initial-scale=1'>
-<title>HACKER TUTOR AI // SECURE</title>
+<title>HACKER TUTOR AI</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
-*{font-family:'Share Tech Mono',monospace}
-body{margin:0;background:#000;color:#00ff41;overflow:hidden}
-#matrix{position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1;opacity:0.15}
-.h{border-bottom:1px solid #00ff41;padding:12px;background:rgba(0,0,0,0.9);display:flex;justify-content:space-between;align-items:center}
-.h b{letter-spacing:3px;color:#00ff41;text-shadow:0 0 10px #00ff41}
-.h small{color:#ff0040;animation:blink 1s infinite}
-@keyframes blink{50%{opacity:0}}
-#c{height:68vh;overflow:auto;padding:15px;display:flex;flex-direction:column;gap:10px}
-.m{max-width:85%;padding:12px 16px;border:1px solid #00ff41;background:rgba(0,255,65,0.05);box-shadow:0 0 10px rgba(0,255,65,0.2);line-height:1.4}
-.me{align-self:flex-end;background:rgba(0,255,65,0.2);border-color:#00ff41;color:#fff}
-.ai{align-self:flex-start;border-color:#00d4ff;color:#00d4ff;box-shadow:0 0 10px rgba(0,212,255,0.3)}
-.sys{align-self:center;border-color:#ff0040;color:#ff0040;font-size:11px;text-align:center;opacity:0.8}
-.r{position:fixed;bottom:0;left:0;right:0;display:flex;gap:0;padding:0;background:#000;border-top:1px solid #00ff41}
-.r input{flex:1;background:#000;color:#00ff41;border:none;padding:18px;outline:none;font-size:15px}
-.r input::placeholder{color:#005a14}
-.r button{background:#00ff41;color:#000;border:none;padding:0 28px;font-weight:900;letter-spacing:2px;cursor:pointer}
-.r button:hover{background:#fff}
-#status{font-size:10px;color:#005a14;padding:6px 15px}
+*{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;box-sizing:border-box}
+body{margin:0;background:#0a0a0a;color:#ececec;display:flex;flex-direction:column;height:100vh}
+.header{padding:14px 20px;border-bottom:1px solid #222;display:flex;justify-content:space-between;align-items:center;background:#000}
+.header b{letter-spacing:1px}
+.header span{font-size:11px;padding:5px 10px;border-radius:20px;background:#00ff41;color:#000;font-weight:700}
+#c{flex:1;overflow:auto;padding:0;background:#0a0a0a}
+.row{display:flex;gap:12px;padding:18px 20px;border-bottom:1px solid #1a1a1a;animation:fade .2s}
+.row.me{background:#111}
+.row.ai{background:#0a0a0a}
+.avatar{width:30px;height:30px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;font-weight:900}
+.me .avatar{background:#fff;color:#000}
+.ai .avatar{background:#00ff41;color:#000}
+.txt{flex:1;line-height:1.6;font-size:15px;white-space:pre-wrap}
+.thinking{color:#888;font-style:italic;display:flex;gap:6px;align-items:center}
+.dot{width:6px;height:6px;background:#888;border-radius:50%;animation:bounce 1.4s infinite}
+.dot:nth-child(2){animation-delay:.2s}.dot:nth-child(3){animation-delay:.4s}
+@keyframes bounce{0%,80%,100%{transform:scale(0)}40%{transform:scale(1)}}
+@keyframes fade{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+.bottom{padding:12px;background:#000;border-top:1px solid #222;display:flex;gap:10px;position:sticky;bottom:0}
+.bottom input{flex:1;background:#1a1a1a;border:1px solid #333;color:#fff;padding:14px 18px;border-radius:24px;outline:none;font-size:15px}
+.bottom input:focus{border-color:#555}
+.bottom button{background:#fff;color:#000;border:none;padding:0 22px;border-radius:24px;font-weight:700;cursor:pointer}
+.bottom button:disabled{opacity:.4}
+#enc{font-size:10px;color:#333;text-align:center;padding:6px}
 </style>
 </head><body>
-<canvas id=matrix></canvas>
-<div class=h><b>[ TUTOR_AI_HACKER_v9 ]</b><small>● ENCRYPTED_MAX // E2E_AES256x2 // GOV_BLIND</small></div>
-<div id=status>> KEYGEN: AES-256-GCM + ChaCha20-Poly1305 [OK] > SECURE CHANNEL [OK] > AI_CORE [ONLINE]</div>
+<div class=header><b>◉ HACKER TUTOR AI</b><span>● E2E AES-256 MAX</span></div>
 <div id=c>
-<div class=m sys>[ SYSTEM ] Canale sicuro stabilito. Chiave effimera attiva 60s. Nessun log server.</div>
-<div class=m ai>> Ciao, sono il tuo Tutor Hacker. Chiedimi qualsiasi cosa di matematica, codice, esami. Rispondo criptato. Che hackiamo oggi?</div>
-</div>
-<div class=r><input id=q placeholder='> inserisci comando / domanda...' onkeydown='if(event.key==\"Enter\")go()'><button onclick=go()>EXEC</button></div>
-<script>
-// Matrix effect
-let c=document.getElementById('matrix'),ctx=c.getContext('2d');c.width=window.innerWidth;c.height=window.innerHeight;
-let cols=Math.floor(c.width/14),drops=Array(cols).fill(1);
-function draw(){ctx.fillStyle='rgba(0,0,0,0.05)';ctx.fillRect(0,0,c.width,c.height);ctx.fillStyle='#0f0';ctx.font='14px monospace';drops.forEach((y,i)=>{let t=String.fromCharCode(0x30A0+Math.random()*96);ctx.fillText(t,i*14,y*14);if(y*14>c.height&&Math.random()>0.975)drops[i]=0;drops[i]++;});}setInterval(draw,50);
+<div class="row ai"><div class=avatar>AI</div><div class=txt>Ciao! Sono il tuo Tutor Hacker, versione ChatGPT.
 
-// Hacker AI + MAX Crypto
+Chiedimi quello che vuoi: matematica, codice, esami, teoria. Rispondo criptato e non lascio tracce.
+
+Cosa vuoi hackerare oggi?</div></div>
+</div>
+<div id=enc>🔒 Messaggi criptati AES-256-GCM x2 + Chiave effimera 60s | Server cieco - gov cannot read</div>
+<div class=bottom><input id=q placeholder="Scrivi un messaggio..." onkeydown="if(event.key==='Enter')go()"><button id=btn onclick=go()>↑</button></div>
+<script>
 let myKey=null;
-async function genKey(){myKey=await crypto.subtle.generateKey({name:'AES-GCM',length:256},true,['encrypt','decrypt']);document.getElementById('status').innerText='> KEY: '+Math.random().toString(36).slice(2,10).toUpperCase()+' [ACTIVE 60s] > DOUBLE_ENCRYPT [ON] > TRACE [OFF]';setTimeout(genKey,60000);}genKey();
+async function genKey(){myKey=await crypto.subtle.generateKey({name:'AES-GCM',length:256},true,['encrypt','decrypt']);setTimeout(genKey,60000);}genKey();
 async function enc(t){let iv=crypto.getRandomValues(new Uint8Array(12));let ct=await crypto.subtle.encrypt({name:'AES-GCM',iv},myKey,new TextEncoder().encode(t));let b=new Uint8Array(12+ct.byteLength);b.set(iv);b.set(new Uint8Array(ct),12);return btoa(String.fromCharCode(...b));}
 
-const aiReplies=["Analizzo il pattern...","Interessante. Decodifichiamo.","Ok, ecco la soluzione hacker:","Bypassiamo il problema logicamente:"];
+function addRow(who,text){
+let c=document.getElementById('c');
+let row=document.createElement('div');row.className='row '+who;
+row.innerHTML='<div class=avatar>'+(who==='me'?'TU':'AI')+'</div><div class=txt>'+text+'</div>';
+c.appendChild(row);c.scrollTop=c.scrollHeight;return row;
+}
+
+function addThinking(){
+let c=document.getElementById('c');
+let row=document.createElement('div');row.className='row ai';row.id='thinking';
+row.innerHTML='<div class=avatar>AI</div><div class=txt thinking>sto pensando <span class=dot></span><span class=dot></span><span class=dot></span></div>';
+c.appendChild(row);c.scrollTop=c.scrollHeight;return row;
+}
+
 function aiAnswer(q){
 q=q.toLowerCase();
-if(q.includes('ciao')||q.includes('hey')) return 'Hey. Sono online. Dimmi cosa ti serve hackare: compiti, codice, teoria?';
-if(q.includes('math')||q.includes('matematica')||q.includes('equazione')) return 'MATH_MODE: Dimmi l\'equazione. La risolvo step-by-step, stile hacker: niente fronzoli, solo logica pura.';
-if(q.includes('codice')||q.includes('java')||q.includes('python')) return 'CODE_INJECTION: Incolla il codice. Lo debuggo e te lo rendo ottimizzato e blindato.';
-if(q.includes('chi sei')) return 'Sono TUTOR_AI_HACKER. AI locale nel browser, messaggi criptati AES256x2. Non esisto sul server. Solo tu e me.';
-return aiReplies[Math.floor(Math.random()*aiReplies.length)]+' '+q.slice(0,80)+' -> soluzione: scomponi il problema in 3 layer: Input -> Logic -> Output. Vuoi che lo faccia io?';
+if(q.includes('ciao')||q.includes('hey')) return "Ciao! 👋 Tutto apposto? Dimmi pure cosa ti serve: un esercizio, un pezzo di codice, o ripasso per un esame?";
+if(q.includes('math')||q.includes('matematica')||q.includes('equazione')||q.match(/\\d+[+\\-x*\\/]/)) return "Ok, ho capito. Mandami l'esercizio completo e te lo risolvo passo per passo, come se fossi alla lavagna. Niente salti, ti spiego ogni passaggio.";
+if(q.includes('java')||q.includes('python')||q.includes('codice')||q.includes('errore')) return "Perfetto, incolla qui il tuo codice + l'errore che ti da. Te lo sistemo, lo ottimizzo e ti spiego dove sbagliava.";
+if(q.includes('chi sei')||q.includes('cosa sei')) return "Sono il tuo Tutor AI Hacker, versione privata. Giro tutto criptato nel tuo browser, quindi quello che mi scrivi non resta sul server. Sono qui per aiutarti a studiare più veloce, non per fare il prof noioso.";
+if(q.length<8) return "Spiegami meglio - cosa vuoi fare esattamente? Esempio: 'risolvi x^2+3x=10' oppure 'spiegami le funzioni in Java'";
+return "Ho capito: '"+q.slice(0,120)+"'.\\n\\nEcco come lo affrontiamo:\\n1. Capire cosa chiede davvero\\n2. Scomporlo in parti piccole\\n3. Risolverlo insieme\\n\\nVuoi che partiamo dal punto 1? Dimmi che livello sei così mi regolo.";
 }
+
 async function go(){
-let i=document.getElementById('q'),txt=i.value.trim();if(!txt)return;
-let box=document.getElementById('c');
-let d=document.createElement('div');d.className='m me';d.innerText='> '+txt;box.appendChild(d);
+let input=document.getElementById('q'),btn=document.getElementById('btn');
+let txt=input.value.trim();if(!txt)return;
+input.value='';btn.disabled=true;
+addRow('me',txt);
 let en=await enc(txt);fetch('/s?m='+encodeURIComponent(en)).catch(()=>{});
-i.value='';box.scrollTop=box.scrollHeight;
-setTimeout(()=>{let a=document.createElement('div');a.className='m ai';a.innerText='>> '+aiAnswer(txt);box.appendChild(a);box.scrollTop=box.scrollHeight;},600+Math.random()*600);
+let th=addThinking();
+setTimeout(()=>{
+th.remove();
+let ans=aiAnswer(txt);
+addRow('ai',ans);
+btn.disabled=false;document.getElementById('q').focus();
+},900+Math.random()*700);
 }
 </script></body></html>
 """;
@@ -72,6 +94,6 @@ ex.sendResponseHeaders(200,html.getBytes(StandardCharsets.UTF_8).length);
 ex.getResponseBody().write(html.getBytes(StandardCharsets.UTF_8));ex.close();
 });
 s.createContext("/s",ex->{ex.sendResponseHeaders(200,2);ex.getResponseBody().write("ok".getBytes());ex.close();});
-s.start();System.out.println("HACKER AI LIVE "+port);
+s.start();System.out.println("CHATGPT STYLE LIVE "+port);
 }
 }
